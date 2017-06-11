@@ -1,0 +1,9 @@
+{
+	director(func:allofterms(name, "michael bay")) {
+		name@en
+		director.film (orderdesc: initial_release_date) {
+			name@en
+			initial_release_date
+		}
+	}
+}
