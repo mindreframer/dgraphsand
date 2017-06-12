@@ -56,7 +56,7 @@ var (
 )
 
 func main() {
-	res := execQuery(since2016)
+	res := execQuery(allMovies)
 	fmt.Println(string(res))
 }
 

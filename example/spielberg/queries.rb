@@ -32,6 +32,35 @@ class Registry
   def snippets
     @snippets||= []
   end
+
+  def generate
+    res = snippets.map do |snippet|
+      ToGolang.convert(snippet)
+    end
+    File.open("queries.go", "w") do |f|
+      f.puts "package main"
+      f.puts "\n\n"
+      f.puts res.join("\n")
+    end
+  end
+end
+
+class ToGolang
+  def self.convert(snippet)
+    self.new(snippet).convert
+  end
+  attr_accessor :snippet
+  def initialize(snippet)
+    @snippet = snippet
+  end
+
+  def convert
+    <<~CODE
+    var #{snippet.name} = `
+    #{snippet.code}
+    `
+    CODE
+  end
 end
 
 
@@ -61,3 +90,4 @@ query {
 GRAPHQL
 
 puts r.inspect
+puts r.generate
